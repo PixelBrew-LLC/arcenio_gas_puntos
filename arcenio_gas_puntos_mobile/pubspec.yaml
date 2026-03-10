@@ -1,0 +1,56 @@
+name: arcenio_gas_puntos_mobile
+description: "App móvil de fidelización Arcenio Gas"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # UI
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+
+  # Navigation
+  go_router: ^14.8.1
+
+  # Network
+  dio: ^5.7.0
+
+  # Secure Storage
+  flutter_secure_storage: ^9.2.4
+
+  # State Management
+  provider: ^6.1.2
+
+  # Intl
+  intl: ^0.19.0
+
+  # Bluetooth Printer
+  flutter_pos_printer_platform_image_3: ^1.1.8
+  esc_pos_utils: ^1.1.0
+  image: ^3.3.0
+
+  # Persistent Config
+  shared_preferences: ^2.3.5
+
+  # Toast notifications
+  toastification: ^2.3.0
+
+  # Camera / OCR
+  image_picker: ^1.1.2
+  google_mlkit_text_recognition: ^0.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/arcenio_logo.png
+    - assets/arcenio_logo_printer.png
