@@ -17,8 +17,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080"
+import { API_URL } from "@/lib/api"
 
 export function LoginForm({
   className,
