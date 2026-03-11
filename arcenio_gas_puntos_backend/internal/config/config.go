@@ -2,6 +2,7 @@ package config
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/joho/godotenv"
 )
@@ -28,11 +29,20 @@ type Config struct {
 }
 
 func LoadConfig() *Config {
-	_ = godotenv.Load()
+	// Obtener el directorio del ejecutable
+	exePath, err := os.Executable()
+	if err == nil {
+		exeDir := filepath.Dir(exePath)
+		envPath := filepath.Join(exeDir, ".env")
+		_ = godotenv.Load(envPath)
+	} else {
+		// Fallback: intentar cargar desde el directorio actual
+		_ = godotenv.Load()
+	}
 
 	return &Config{
 		ServerPort: getEnv("SERVER_PORT", "3000"),
-		GinMode:    getEnv("GIN_MODE", "debug"),
+		GinMode:    getEnv("GIN_MODE", "release"),
 
 		DBHost:     getEnv("DB_HOST", "localhost"),
 		DBPort:     getEnv("DB_PORT", "5432"),
