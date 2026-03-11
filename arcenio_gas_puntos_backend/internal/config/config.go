@@ -29,29 +29,39 @@ type Config struct {
 }
 
 func LoadConfig() *Config {
-	// Obtener el directorio del ejecutable
-	exePath, err := os.Executable()
-	if err == nil {
-		exeDir := filepath.Dir(exePath)
-		envPath := filepath.Join(exeDir, ".env")
-		_ = godotenv.Load(envPath)
-	} else {
-		// Fallback: intentar cargar desde el directorio actual
-		_ = godotenv.Load()
+	// Determinar el modo de ejecución primero
+	ginMode := os.Getenv("GIN_MODE")
+	if ginMode == "" {
+		ginMode = "release" // Por defecto es release
+	}
+
+	// Solo cargar el archivo .env si NO estamos en modo release
+	// En release (producción/.exe), usar variables de entorno del sistema
+	if ginMode != "release" {
+		// Intentar cargar desde el directorio del ejecutable
+		exePath, err := os.Executable()
+		if err == nil {
+			exeDir := filepath.Dir(exePath)
+			envPath := filepath.Join(exeDir, ".env")
+			_ = godotenv.Load(envPath)
+		} else {
+			// Fallback: intentar cargar desde el directorio actual
+			_ = godotenv.Load()
+		}
 	}
 
 	return &Config{
 		ServerPort: getEnv("SERVER_PORT", "3000"),
-		GinMode:    getEnv("GIN_MODE", "release"),
+		GinMode:    ginMode,
 
 		DBHost:     getEnv("DB_HOST", "localhost"),
 		DBPort:     getEnv("DB_PORT", "5432"),
-		DBUser:     getEnv("DB_USER", "manuel"),
-		DBPassword: getEnv("DB_PASSWORD", "password"),
+		DBUser:     getEnv("DB_USER", ""),
+		DBPassword: getEnv("DB_PASSWORD", ""),
 		DBName:     getEnv("DB_NAME", "arcenio_gas_db"),
 
-		JWTSecret: getEnv("JWT_SECRET", "default_secret"),
-		Timezone:  getEnv("TZ", "America/Tegucigalpa"),
+		JWTSecret: getEnv("JWT_SECRET", ""),
+		Timezone:  getEnv("TZ", "America/Santo_Domingo"),
 	}
 }
 
